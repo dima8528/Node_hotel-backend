@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id            Int       @id @default(autoincrement())
+  roomNumber    Int       @unique
+  roomType      RoomType? @relation(fields: [roomTypeId], references: [id], onDelete: Cascade)
+  roomTypeId    Int
+  floor         Int
+  capacity      Int
+  pricePerNight Float
+  available     Boolean
+  images        String[]
+}
+
+model RoomType {
+  id            Int      @id @default(autoincrement())
+  roomTypeName  String   @unique
+  rooms         Room[]
+}
+
+
+model User {
+  id             Int     @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String  @unique
+  password       String
+  role           String
+  activationToken String?
+  token          Token?
+}
+
+model Token {
+  id           Int    @id @default(autoincrement())
+  refreshToken String
+  userId       Int    @unique
+  user         User   @relation(fields: [userId], references: [id])
+}
