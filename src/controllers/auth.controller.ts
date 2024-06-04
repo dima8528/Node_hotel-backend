@@ -36,6 +36,9 @@ function validatePassword(value: string) {
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, firstName, lastName } = req.body;
 
+  console.log(firstName);
+  
+
   const errors = {
     email: validateEmail(email),
     password: validatePassword(password),
