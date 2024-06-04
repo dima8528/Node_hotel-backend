@@ -7,6 +7,18 @@ const getAllActivated = async (req: Request, res: Response) => {
     users.map(userService.normalize))
 }
 
+const remove = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    await userService.remove(+id);
+    res.sendStatus(204);
+  } catch (error) {
+    res.sendStatus(500);
+  }
+}
+
 export const userController = {
-  getAllActivated
+  getAllActivated,
+  remove
 };

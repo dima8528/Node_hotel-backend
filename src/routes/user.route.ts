@@ -6,3 +6,4 @@ import { catchError } from '../utils/catchErrors';
 export const userRouter = express.Router();
 
 userRouter.get('/', authMiddleware, catchError(userController.getAllActivated));
+userRouter.delete('/:id', authMiddleware, catchError(userController.remove));

@@ -61,9 +61,14 @@ async function register({
   await emailService.sendActivationEmail({ email, activationToken });
 }
 
+function remove(id: number) {
+  return prisma.user.delete({ where: { id } });
+}
+
 export const userService = {
   getAllActivated,
   normalize,
   findByEmail,
   register,
+  remove,
 };
