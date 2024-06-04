@@ -1,14 +1,15 @@
 import prisma from '../utils/db';
+import { Room } from '../types/Room';
 
 export const roomService = {
   getAllRooms: async () => {
-    const rooms = await prisma.room.findMany();
+    const rooms: Room[] = await prisma.room.findMany();
 
     return rooms;
   },
 
   getRoomById: async (id: number) => {
-    const room = await prisma.room.findUnique({
+    const room: Room | null = await prisma.room.findUnique({
       where: {
         id,
       },
