@@ -39,7 +39,7 @@ export const roomService = {
       }
       const roomTypeResult = await prisma.roomType.findUnique({
         where: {
-          roomTypeName: roomType,
+          roomTypeName: type,
         },
         select: {
           id: true,
@@ -49,14 +49,14 @@ export const roomService = {
       // console.log(sort);
       
   
-      if (!roomTypeResult && roomType !== 'All') {
+      if (!roomTypeResult && type !== 'All') {
         // If room type is not found, return an empty result
         return { rooms: [], totalCount: 0, totalPages: 0 };
       }
   
       const roomTypeId = roomTypeResult?.id;
   
-      const totalCount = roomType === 'All' 
+      const totalCount = type === 'All' 
         ? await prisma.room.count() 
         : await prisma.room.count({
             where: {
@@ -82,7 +82,7 @@ export const roomService = {
       console.log(page);
       
   
-      const rooms = roomType === 'All'
+      const rooms = type === 'All'
         ? await prisma.room.findMany({
             orderBy: { [sort]: 'asc' }, // Ensure `sortBy` is a valid field
             skip: +roomsOnPage * (+page - 1),
