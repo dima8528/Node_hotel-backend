@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { roomService } from '../services/room.service';
 
-export const productController = {
+export const roomController = {
   getAllRooms: async (req: Request, res: Response) => {
     try {
       const rooms = await roomService.getAllRooms();
@@ -33,11 +33,13 @@ export const productController = {
       );
       res.status(200).send(data);
     } catch (error) {
+      console.error("Error in getByRoomType: ", error); // Логирование ошибки
       res.status(500).send({
         error: 'Failed to fetch rooms by type',
       });
     }
   },
+  
 
   getRecommendedRooms: async (req: Request, res: Response) => {
     try {
@@ -65,11 +67,22 @@ export const productController = {
 
   getCheapestRooms: async (req: Request, res: Response) => {
     try {
-      const products = await roomService.getRoomsByPrice('asc');
-      res.status(200).send(products);
+      const rooms = await roomService.getRoomsByPrice('asc');
+      res.status(200).send(rooms);
     } catch (error) {
       res.status(500).send({
         error: 'Failed to fetch the cheapest rooms',
+      });
+    }
+  },
+
+  getBestRooms: async (req: Request, res: Response) => {
+    try {
+      const rooms = await roomService.getBestRooms();      
+      res.status(200).send(rooms);
+    } catch (error) {
+      res.status(500).send({
+        error: 'Failed to fetch the best rooms',
       });
     }
   },

@@ -29,6 +29,8 @@ export const roomTypeController = {
     }
   },
 
+  
+
   createRoomType: async (req: Request, res: Response) => {
     try {
       const roomType = await roomTypeService.createRoomType(req.body.roomTypeName);

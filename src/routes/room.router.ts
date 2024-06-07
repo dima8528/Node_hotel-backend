@@ -1,14 +1,15 @@
 import express from 'express';
-import { productController } from '../controllers/room.controller';
+import { roomController } from '../controllers/room.controller';
 
 export const roomRouter = express.Router();
 
 // roomRouter.get('/newest', productController.getNewestProducts);
-roomRouter.get('/cheapest', productController.getCheapestRooms);
-roomRouter.get('/', productController.getAllRooms);
-roomRouter.get('/:id', productController.getOneRoom);
-roomRouter.get('/room-type/:roomType', productController.getByRoomType);
-roomRouter.get('/:id/recommended', productController.getRecommendedRooms);
-roomRouter.post('/', productController.createNewRoom);
-roomRouter.patch('/:id', productController.updateRoom);
-roomRouter.delete('/:id', productController.deleteRoom);
+roomRouter.get('/cheapest', roomController.getCheapestRooms);
+roomRouter.get('/best', roomController.getBestRooms);
+roomRouter.get('/', roomController.getAllRooms);
+roomRouter.get('/:id', roomController.getOneRoom);
+roomRouter.get('/type/:roomType', roomController.getByRoomType);
+roomRouter.get('/:id/recommended', roomController.getRecommendedRooms);
+roomRouter.post('/', roomController.createNewRoom);
+roomRouter.patch('/:id', roomController.updateRoom);
+roomRouter.delete('/:id', roomController.deleteRoom);

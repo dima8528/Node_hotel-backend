@@ -19,40 +19,96 @@ export const roomService = {
 
   getByRoomType: async (
     roomType: string,
-    { sortBy = 'id', perPage, page = 1 }: any,
+    { sort, perPage, page, type }: any,
   ) => {
-    const roomTypeId = await prisma.roomType.findUnique({
-      where: {
-        roomTypeName: roomType,
-      },
-      select: {
-        id: true,
-      },
-    })
-    const totalCount = await prisma.room.count({
-      where: {
-        roomTypeId: roomTypeId?.id,
-      },
-    });
+    try {
+      if (!type) {
+        type = 'All';
+      }
+      
+      if (!sort) {
+        sort = 'id';
+      }
 
-    const roomsOnPage = perPage ? perPage : totalCount;
+      if (!perPage) {
+        perPage = 16;
+      }
 
-    const totalPages = Math.ceil(totalCount / roomsOnPage) || 1;
+      if (!page) {
+        page = 1;
+      }
+      const roomTypeResult = await prisma.roomType.findUnique({
+        where: {
+          roomTypeName: roomType,
+        },
+        select: {
+          id: true,
+        },
+      });
 
-    const rooms = await prisma.room.findMany({
-      where: {
-        roomTypeId: roomTypeId?.id,
-      },
+      // console.log(sort);
+      
+  
+      if (!roomTypeResult && roomType !== 'All') {
+        // If room type is not found, return an empty result
+        return { rooms: [], totalCount: 0, totalPages: 0 };
+      }
+  
+      const roomTypeId = roomTypeResult?.id;
+  
+      const totalCount = roomType === 'All' 
+        ? await prisma.room.count() 
+        : await prisma.room.count({
+            where: {
+              roomTypeId: roomTypeId,
+            },
+          });
+  
+      const roomsOnPage = perPage ? perPage : totalCount;
+      console.log('roomsOnPage');
+      console.log(roomsOnPage);
+      
+      const totalPages = Math.ceil(totalCount / roomsOnPage) || 1;
+      console.log('totalPages');
+      console.log(totalPages);
 
-      orderBy: {
-        [sortBy]: 'desc',
-      },
+      console.log('sort');
+      console.log(sort);
 
-      skip: +roomsOnPage * (+page - 1),
-      take: +roomsOnPage,
-    });
-    return { rooms, totalCount, totalPages };
-  },
+      console.log('perPage');
+      console.log(perPage);
+
+      console.log('page');
+      console.log(page);
+      
+  
+      const rooms = roomType === 'All'
+        ? await prisma.room.findMany({
+            orderBy: { [sort]: 'asc' }, // Ensure `sortBy` is a valid field
+            skip: +roomsOnPage * (+page - 1),
+            take: +roomsOnPage,
+          }) 
+        : await prisma.room.findMany({
+            where: {
+              roomTypeId: roomTypeId,
+            },
+            orderBy: {
+              [sort]: 'asc', // Ensure `sortBy` is a valid field
+            },
+            skip: +roomsOnPage * (+page - 1),
+            take: +roomsOnPage,
+          });
+
+      console.log('rooms');
+      console.log(rooms);
+  
+      return { rooms, totalCount, totalPages };
+    } catch (error) {
+      console.error("Error in getByRoomType service: ", error); // Логирование ошибки
+      throw new Error('Database query failed');
+    }
+  },  
+  
 
   getRecommendedRooms: async (id: number) => {
     const targetRoom = await prisma.room.findUnique({
@@ -89,6 +145,20 @@ export const roomService = {
       orderBy: {
         pricePerNight: orderBy,
       },
+
+      take: 10,
+    });
+
+    return rooms;
+  },
+
+  getBestRooms: async () => {
+    const rooms = await prisma.room.findMany({
+      orderBy: {
+        roomTypeId: 'desc',
+      },
+
+      take: 10,
     });
 
     return rooms;

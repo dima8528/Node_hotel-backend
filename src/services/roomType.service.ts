@@ -24,6 +24,15 @@ export const roomTypeService = {
     return roomType;
   },
 
+  getOneInstance: async (id: number) => {
+    const instance = await prisma.room.findFirst({
+      where: {
+        id,
+      },
+    });
+    return instance;
+  },
+
   createRoomType: async (name: string) => {
     const roomType = await prisma.roomType.create({
       data: {

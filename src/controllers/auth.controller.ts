@@ -54,9 +54,12 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const activate = async (req: Request, res: Response) => {
-  console.log(prisma, 'prisma');
+  // console.log(prisma, 'prisma');
 
   const { activationToken } = req.params;
+
+  console.log(activationToken);
+  
   const user = await prisma.user.findFirst({
     where: { activationToken },
   });
