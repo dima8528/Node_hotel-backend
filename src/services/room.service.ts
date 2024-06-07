@@ -19,15 +19,17 @@ export const roomService = {
 
   getByRoomType: async (
     roomType: string,
-    { sort, perPage, page, type }: any,
+    { sortBy, perPage, page, type }: any,
   ) => {
     try {
+      let order: 'asc' | 'desc' = 'asc';
+
       if (!type) {
         type = 'All';
       }
       
-      if (!sort) {
-        sort = 'id';
+      if (!sortBy) {
+        sortBy = 'id';
       }
 
       if (!perPage) {
@@ -37,6 +39,22 @@ export const roomService = {
       if (!page) {
         page = 1;
       }
+
+      if (sortBy === 'All') {
+        sortBy = 'id';
+        order = 'asc';
+      }
+
+      if (sortBy === 'Best') {
+        sortBy = 'roomTypeId';
+        order = 'desc';
+      }
+
+      if (sortBy === 'Cheapest') {
+        sortBy = 'pricePerNight';
+        order = 'asc';
+      }
+
       const roomTypeResult = await prisma.roomType.findUnique({
         where: {
           roomTypeName: type,
@@ -73,7 +91,7 @@ export const roomService = {
       console.log(totalPages);
 
       console.log('sort');
-      console.log(sort);
+      console.log(sortBy);
 
       console.log('perPage');
       console.log(perPage);
@@ -84,7 +102,7 @@ export const roomService = {
   
       const rooms = type === 'All'
         ? await prisma.room.findMany({
-            orderBy: { [sort]: 'asc' }, // Ensure `sortBy` is a valid field
+            orderBy: { [sortBy]: order }, // Ensure `sortBy` is a valid field
             skip: +roomsOnPage * (+page - 1),
             take: +roomsOnPage,
           }) 
@@ -93,7 +111,7 @@ export const roomService = {
               roomTypeId: roomTypeId,
             },
             orderBy: {
-              [sort]: 'asc', // Ensure `sortBy` is a valid field
+              [sortBy]: order, // Ensure `sortBy` is a valid field
             },
             skip: +roomsOnPage * (+page - 1),
             take: +roomsOnPage,
