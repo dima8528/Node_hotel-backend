@@ -36,6 +36,7 @@ model User {
   email          String  @unique
   password       String
   role           String
+  balance        Float   @default(0)
   activationToken String?
   bookings       Room[]
   token          Token?
