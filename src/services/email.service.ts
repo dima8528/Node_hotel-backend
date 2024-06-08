@@ -32,7 +32,7 @@ export function send({ email, subject, html }: CustomSendMailOptions) {
 }
 
 function sendActivationEmail({ email, activationToken }: ActivationSendMailOptions) {
-  const href = `${process.env.CLIENT_HOST}/activate/${activationToken}`
+  const href = `${process.env.CLIENT_HOST}#/activate/${activationToken}`
   const html = `
   <h1>Activate account</h1>
   <a href="${href}">${href}</a>`;
