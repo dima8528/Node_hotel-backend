@@ -9,6 +9,7 @@ datasource db {
 
 model Room {
   id            Int       @id @default(autoincrement())
+  roomName      String
   roomNumber    Int       @unique
   roomType      RoomType? @relation(fields: [roomTypeId], references: [id], onDelete: Cascade)
   roomTypeId    Int
@@ -16,8 +17,9 @@ model Room {
   capacity      Int
   pricePerNight Float
   available     Boolean
-  description   String
   images        String[]
+  user          User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int?
 }
 
 model RoomType {
@@ -35,6 +37,7 @@ model User {
   password       String
   role           String
   activationToken String?
+  bookings       Room[]
   token          Token?
 }
 

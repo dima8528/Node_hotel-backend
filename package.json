@@ -8,7 +8,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^5.14.0",
+    "@prisma/client": "^5.15.0",
     "@prisma/extension-accelerate": "^1.0.0",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
