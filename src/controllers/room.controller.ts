@@ -108,12 +108,12 @@ export const roomController = {
     }
   },
 
-  updateRoom: async (req: Request, res: Response) => {
+  bookRooms: async (req: Request, res: Response) => {
     try {
-      const room = await roomService.updateRoom(+req.params.id, req.body);
+      const room = await roomService.bookRooms(req.body);
       res.status(200).send(room);
     } catch (error) {
-      res.status(500).send({ error: 'Failed to update room' });
+      res.status(500).send({ error: 'Failed to book rooms' });
     }
   },
 

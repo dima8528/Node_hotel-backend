@@ -11,5 +11,5 @@ roomRouter.get('/:id', roomController.getOneRoom);
 roomRouter.get('/type/:roomType', roomController.getByRoomType);
 roomRouter.get('/:id/recommended', roomController.getRecommendedRooms);
 roomRouter.post('/', roomController.createNewRoom);
-roomRouter.patch('/:id', roomController.updateRoom);
+roomRouter.patch('/', roomController.bookRooms);
 roomRouter.delete('/:id', roomController.deleteRoom);

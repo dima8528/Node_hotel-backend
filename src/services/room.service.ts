@@ -190,14 +190,17 @@ export const roomService = {
     return room;
   },
 
-  updateRoom: async (id: number, data: any) => {
-    const room = await prisma.room.update({
-      where: {
-        id,
-      },
-      data,
-    });
-    return room;
+  bookRooms: async (rooms: any) => {
+    for (const room of rooms) {
+      await prisma.room.update({
+        where: {
+          id: room.id,
+        },
+        data: {
+          available: false,
+        },
+      });
+    }
   },
 
   deleteRoom: async (id: number) => {
