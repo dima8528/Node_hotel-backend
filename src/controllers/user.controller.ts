@@ -39,8 +39,15 @@ const getUserByEmail = async (req: Request, res: Response) => {
   res.send(user);
 }
 
+const doDeposit = async (req: Request, res: Response) => {
+  const { email, amount } = req.body;
+  const newBalance = await userService.doDeposit(email, amount);
+  res.send(newBalance);
+}
+
 export const userController = {
   getAllActivated,
   getUserByEmail,
-  remove
+  remove,
+  doDeposit
 };

@@ -97,11 +97,20 @@ async function getUserByEmail(email: string) {
   }});
 }
 
+const doDeposit = async (email: string, amount: number) => {
+   await prisma.user.update({ where: { email }, data: { balance: { increment: amount } } });
+
+   const newBalance = await prisma.user.findUnique({ where: { email }, select: { balance: true } });
+
+   return newBalance;
+};
+
 export const userService = {
   getAllActivated,
   getUserByEmail,
   normalize,
   findByEmail,
   register,
+  doDeposit,
   remove,
 };
