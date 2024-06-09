@@ -65,8 +65,41 @@ function remove(id: number) {
   return prisma.user.delete({ where: { id } });
 }
 
+// async function getOneUser(refreshToken: string) {
+//   const userId = await prisma.token.findFirst({ where: { refreshToken }, select: { userId: true } });
+
+//   console.log('userId', userId?.userId);
+
+//   const user = await prisma.user.findUnique({ where: { id: userId?.userId },
+//     select: { 
+//       id: true,
+//       firstName: true,
+//       lastName: true,
+//       email: true,
+//       role: true,
+//       balance: true
+//     }
+//   });
+
+//   console.log('user', user);
+
+//   return user;
+// }
+
+async function getUserByEmail(email: string) {
+  return await prisma.user.findUnique({ where: { email }, select: { 
+    id: true,
+    firstName: true,
+    lastName: true,
+    email: true,
+    role: true,
+    balance: true
+  }});
+}
+
 export const userService = {
   getAllActivated,
+  getUserByEmail,
   normalize,
   findByEmail,
   register,

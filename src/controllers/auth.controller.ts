@@ -36,7 +36,7 @@ function validatePassword(value: string) {
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, firstName, lastName } = req.body;
 
-  console.log(firstName);
+  // console.log(firstName);
   
 
   const errors = {
@@ -54,11 +54,11 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const activate = async (req: Request, res: Response) => {
-  // console.log(prisma, 'prisma');
+  // // console.log(prisma, 'prisma');
 
   const { activationToken } = req.params;
 
-  console.log(activationToken);
+  // console.log(activationToken);
   
   const user = await prisma.user.findFirst({
     where: { activationToken },
@@ -80,6 +80,9 @@ const activate = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  console.log(req.body);
+  
+
   const user = await userService.findByEmail(email);
 
   if (!user) {
@@ -88,6 +91,8 @@ const login = async (req: Request, res: Response) => {
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
+  console.log(isPasswordValid);
+  
   if (!isPasswordValid) {
     throw ApiError.BadRequest('Password is wrong');
   }
@@ -144,7 +149,7 @@ async function sendAuthentication(res: Response, user: any) {
     secure: true,
   });
 
-  console.log(refreshToken);
+  // // console.log(refreshToken);
 
   res.send({
     user: userData,

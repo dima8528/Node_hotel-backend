@@ -64,7 +64,7 @@ export const roomService = {
         },
       });
 
-      // console.log(sort);
+      // // console.log(sort);
       
   
       if (!roomTypeResult && type !== 'All') {
@@ -83,21 +83,21 @@ export const roomService = {
           });
   
       const roomsOnPage = perPage ? perPage : totalCount;
-      console.log('roomsOnPage');
-      console.log(roomsOnPage);
+      // console.log('roomsOnPage');
+      // console.log(roomsOnPage);
       
       const totalPages = Math.ceil(totalCount / roomsOnPage) || 1;
-      console.log('totalPages');
-      console.log(totalPages);
+      // console.log('totalPages');
+      // console.log(totalPages);
 
-      console.log('sort');
-      console.log(sortBy);
+      // console.log('sort');
+      // console.log(sortBy);
 
-      console.log('perPage');
-      console.log(perPage);
+      // console.log('perPage');
+      // console.log(perPage);
 
-      console.log('page');
-      console.log(page);
+      // console.log('page');
+      // console.log(page);
       
   
       const rooms = type === 'All'
@@ -117,8 +117,8 @@ export const roomService = {
             take: +roomsOnPage,
           });
 
-      console.log('rooms');
-      console.log(rooms);
+      // console.log('rooms');
+      // console.log(rooms);
   
       return { rooms, totalCount, totalPages };
     } catch (error) {

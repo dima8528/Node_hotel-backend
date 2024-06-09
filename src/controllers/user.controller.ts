@@ -18,7 +18,29 @@ const remove = async (req: Request, res: Response) => {
   }
 }
 
+// export const getOneUser = async (req: Request, res: Response) => {
+//   const refreshToken = req.cookies.refreshToken;
+  
+//   if (!refreshToken) {
+//     return res.status(401).json({ message: 'Refresh token not found' });
+//   }
+
+//   try {
+//     const user = await userService.getOneUser(refreshToken);
+//     res.send(user);
+//   } catch (error) {
+//     res.sendStatus(500);
+//   }
+// }
+
+const getUserByEmail = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const user = await userService.getUserByEmail(email);
+  res.send(user);
+}
+
 export const userController = {
   getAllActivated,
+  getUserByEmail,
   remove
 };

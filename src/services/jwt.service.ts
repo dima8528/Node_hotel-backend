@@ -7,7 +7,7 @@ function generateAccessToken(user: NormalizedUser) {
   if (secret === undefined) {
     throw new Error();
   }
-  return jwt.sign(user, secret, { expiresIn: '5s' });
+  return jwt.sign(user, secret, { expiresIn: '1h' });
 }
 
 function generateRefreshToken(user: NormalizedUser) {
@@ -15,7 +15,7 @@ function generateRefreshToken(user: NormalizedUser) {
   if (secret === undefined) {
     throw new Error();
   }
-  return jwt.sign(user, secret, { expiresIn: '30s' });
+  return jwt.sign(user, secret, { expiresIn: '1h' });
 }
 
 function validateAccessToken(token: string) {
