@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: 'https://dima8528.github.io/React_hotel-frontend',
+    origin: 'https://dima8528.github.io',
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   }),
