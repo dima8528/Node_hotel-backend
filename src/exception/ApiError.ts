@@ -16,6 +16,10 @@ export class ApiError extends Error {
     return new ApiError(401, 'User is not authorized');
   }
 
+  static Forbidden(): ApiError {
+    return new ApiError(403, 'Access denied. Please confirm your email');
+  }
+
   static NotFound(): ApiError {
     return new ApiError(404, 'Not found');
   }
