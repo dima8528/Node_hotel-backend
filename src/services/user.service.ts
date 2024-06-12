@@ -105,9 +105,31 @@ const doDeposit = async (email: string, amount: number) => {
    return newBalance;
 };
 
+async function addBooked(id: number, rooms: any) {
+  await prisma.user.update({
+    where: { id },
+    data: {
+      bookings: {
+        connect: rooms.map((room: any) => ({ id: room.id }))
+      }
+    }
+  });
+  const newRooms = await prisma.user.findUnique({ where: { id }, select: { bookings: true } });
+
+  return newRooms;
+}
+
+async function getBooked(id: number) {
+  const bookedRooms = await prisma.user.findUnique({ where: { id }, select: { bookings: true } });
+
+  return bookedRooms;
+}
+
 export const userService = {
   getAllActivated,
   getUserByEmail,
+  getBooked,
+  addBooked,
   normalize,
   findByEmail,
   register,

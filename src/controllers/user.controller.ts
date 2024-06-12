@@ -39,15 +39,32 @@ const getUserByEmail = async (req: Request, res: Response) => {
   res.send(user);
 }
 
+const addBooked = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { rooms } = req.body;
+  const bookedRooms = await userService.addBooked(+id, rooms);
+
+  res.send(bookedRooms);
+}
+
 const doDeposit = async (req: Request, res: Response) => {
   const { email, amount } = req.body;
   const newBalance = await userService.doDeposit(email, amount);
   res.send(newBalance);
 }
 
+const getBooked = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const bookedRooms = await userService.getBooked(+id);
+
+  res.send(bookedRooms);
+}
+
 export const userController = {
   getAllActivated,
   getUserByEmail,
   remove,
+  addBooked,
+  getBooked,
   doDeposit
 };

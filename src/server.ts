@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: 'https://dima8528.github.io',
+    origin: ['https://dima8528.github.io', 'http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   }),
