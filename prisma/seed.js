@@ -237,7 +237,7 @@ const rooms = [
     floor: 1,
     capacity: 4,
     pricePerNight: 60,
-    available: false,
+    available: true,
     images: room3_imgs,
   },
 
@@ -273,7 +273,7 @@ const rooms = [
     floor: 1,
     capacity: 2,
     pricePerNight: 30,
-    available: false,
+    available: true,
     images: room6_imgs,
   },
 
@@ -321,7 +321,7 @@ const rooms = [
     floor: 1,
     capacity: 6,
     pricePerNight: 90,
-    available: false,
+    available: true,
     images: room10_imgs,
   },
 
@@ -369,7 +369,7 @@ const rooms = [
     floor: 2,
     capacity: 4,
     pricePerNight: 60,
-    available: false,
+    available: true,
     images: room14_imgs,
   },
 
@@ -417,7 +417,7 @@ const rooms = [
     floor: 2,
     capacity: 4,
     pricePerNight: 80,
-    available: false,
+    available: true,
     images: room18_imgs,
   },
 
@@ -453,7 +453,7 @@ const rooms = [
     floor: 2,
     capacity: 6,
     pricePerNight: 180,
-    available: false,
+    available: true,
     images: room21_imgs,
   },
 

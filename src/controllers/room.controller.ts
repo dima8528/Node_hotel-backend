@@ -119,9 +119,10 @@ export const roomController = {
 
   deleteRoom: async (req: Request, res: Response) => {
     try {
-      const room = await roomService.deleteRoom(+req.params.id);
-      res.status(200).send(room);
+      await roomService.deleteRoom(+req.params.id);
+      res.status(200);
     } catch (error) {
+      console.log(error);
       res.status(500).send({ error: 'Failed to delete room' });
     }
   },
