@@ -24,7 +24,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     throw ApiError.Unauthorized();
   }
 
-  console.log('User authorized:', userData);
+  // console.log('User authorized:', userData);
 
   next();
 }

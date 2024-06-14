@@ -62,13 +62,9 @@ export const roomService = {
         select: {
           id: true,
         },
-      });
-
-      // // console.log(sort);
-      
+      });      
   
       if (!roomTypeResult && type !== 'All') {
-        // If room type is not found, return an empty result
         return { rooms: [], totalCount: 0, totalPages: 0 };
       }
   
@@ -83,26 +79,12 @@ export const roomService = {
           });
   
       const roomsOnPage = perPage ? perPage : totalCount;
-      // console.log('roomsOnPage');
-      // console.log(roomsOnPage);
       
       const totalPages = Math.ceil(totalCount / roomsOnPage) || 1;
-      // console.log('totalPages');
-      // console.log(totalPages);
-
-      // console.log('sort');
-      // console.log(sortBy);
-
-      // console.log('perPage');
-      // console.log(perPage);
-
-      // console.log('page');
-      // console.log(page);
       
-  
       const rooms = type === 'All'
         ? await prisma.room.findMany({
-            orderBy: { [sortBy]: order }, // Ensure `sortBy` is a valid field
+            orderBy: { [sortBy]: order },
             skip: +roomsOnPage * (+page - 1),
             take: +roomsOnPage,
           }) 
@@ -111,14 +93,11 @@ export const roomService = {
               roomTypeId: roomTypeId,
             },
             orderBy: {
-              [sortBy]: order, // Ensure `sortBy` is a valid field
+              [sortBy]: order,
             },
             skip: +roomsOnPage * (+page - 1),
             take: +roomsOnPage,
           });
-
-      // console.log('rooms');
-      // console.log(rooms);
   
       return { rooms, totalCount, totalPages };
     } catch (error) {

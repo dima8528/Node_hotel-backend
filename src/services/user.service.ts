@@ -65,27 +65,6 @@ function remove(id: number) {
   return prisma.user.delete({ where: { id } });
 }
 
-// async function getOneUser(refreshToken: string) {
-//   const userId = await prisma.token.findFirst({ where: { refreshToken }, select: { userId: true } });
-
-//   console.log('userId', userId?.userId);
-
-//   const user = await prisma.user.findUnique({ where: { id: userId?.userId },
-//     select: { 
-//       id: true,
-//       firstName: true,
-//       lastName: true,
-//       email: true,
-//       role: true,
-//       balance: true
-//     }
-//   });
-
-//   console.log('user', user);
-
-//   return user;
-// }
-
 async function getUserByEmail(email: string) {
   return await prisma.user.findUnique({ where: { email }, select: { 
     id: true,
@@ -114,6 +93,12 @@ async function addBooked(id: number, rooms: any) {
       }
     }
   });
+
+  await prisma.room.updateMany({
+    where: { id: { in: rooms.map((room: any) => room.id) } },
+    data: { available: false }
+  });
+
   const newRooms = await prisma.user.findUnique({ where: { id }, select: { bookings: true } });
 
   return newRooms;
