@@ -117,6 +117,15 @@ export const roomController = {
     }
   },
 
+  updateRoom: async (req: Request, res: Response) => {
+    try {
+      const room = await roomService.updateRoom(+req.params.id, req.body);
+      res.status(200).send(room);
+    } catch (error) {
+      res.status(500).send({ error: 'Failed to update room' });
+    }
+  },
+
   deleteRoom: async (req: Request, res: Response) => {
     try {
       await roomService.deleteRoom(+req.params.id);

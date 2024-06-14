@@ -106,7 +106,6 @@ export const roomService = {
     }
   },  
   
-
   getRecommendedRooms: async (id: number) => {
     const targetRoom = await prisma.room.findUnique({
       where: {
@@ -126,16 +125,6 @@ export const roomService = {
 
     return rooms;
   },
-
-  // getNewestProducts: async () => {
-  //   const products = await prisma.product.findMany({
-  //     orderBy: {
-  //       year: 'desc',
-  //     },
-  //     take: 10,
-  //   });
-  //   return products;
-  // },
 
   getRoomsByPrice: async (orderBy: 'asc' | 'desc') => {
     const rooms = await prisma.room.findMany({
@@ -180,6 +169,25 @@ export const roomService = {
         },
       });
     }
+  },
+
+  updateRoom: async (id: number, data: any) => {
+    enum types {
+      'Standard' = 1,
+      'Lux' = 2,
+      'Premium' = 3,
+    };
+
+    if (data.roomTypeId) {
+      data.roomTypeId = types[data.roomTypeId];
+    }
+
+    await prisma.room.update({
+      where: {
+        id,
+      },
+      data,
+    });
   },
 
   deleteRoom: async (id: number) => {
