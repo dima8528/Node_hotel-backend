@@ -3,7 +3,6 @@ import { roomController } from '../controllers/room.controller';
 
 export const roomRouter = express.Router();
 
-// roomRouter.get('/newest', productController.getNewestProducts);
 roomRouter.get('/cheapest', roomController.getCheapestRooms);
 roomRouter.get('/best', roomController.getBestRooms);
 roomRouter.get('/', roomController.getAllRooms);
