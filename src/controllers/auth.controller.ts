@@ -7,9 +7,6 @@ import { userService } from '../services/user.service';
 import { jwtService } from '../services/jwt.service';
 import { ApiError } from '../exception/ApiError';
 import { tokenService } from '../services/token.service';
-// import type { User } from '@prisma/client';
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
 
 function validateEmail(value: string) {
   if (!value) {
@@ -34,7 +31,7 @@ function validatePassword(value: string) {
 }
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password, firstName, lastName } = req.body;  
+  const { email, password, firstName, lastName } = req.body;
 
   const errors = {
     email: validateEmail(email),
@@ -45,14 +42,20 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     throw ApiError.BadRequest('Bad request', errors);
   }
 
-  await authService.register({ email, password, firstName, lastName, role: 'user' });
+  await authService.register({
+    email,
+    password,
+    firstName,
+    lastName,
+    role: 'user',
+  });
 
   res.send({ message: 'OK' });
 };
 
 const activate = async (req: Request, res: Response) => {
   const { activationToken } = req.params;
-  
+
   const user = await prisma.user.findFirst({
     where: { activationToken },
   });
@@ -71,7 +74,7 @@ const activate = async (req: Request, res: Response) => {
 };
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;  
+  const { email, password } = req.body;
 
   const user = await userService.findByEmail(email);
 
@@ -79,12 +82,12 @@ const login = async (req: Request, res: Response) => {
     throw ApiError.BadRequest('User with this email does not exist');
   }
 
-  if(user.activationToken) {
+  if (user.activationToken) {
     throw ApiError.Forbidden();
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
-  
+
   if (!isPasswordValid) {
     throw ApiError.BadRequest('Password is wrong');
   }

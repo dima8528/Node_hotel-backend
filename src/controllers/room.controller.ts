@@ -33,19 +33,16 @@ export const roomController = {
       );
       res.status(200).send(data);
     } catch (error) {
-      console.error("Error in getByRoomType: ", error); // Логирование ошибки
+      console.error('Error in getByRoomType: ', error);
       res.status(500).send({
         error: 'Failed to fetch rooms by type',
       });
     }
   },
-  
 
   getRecommendedRooms: async (req: Request, res: Response) => {
     try {
-      const rooms = await roomService.getRecommendedRooms(
-        +req.params.id,
-      );
+      const rooms = await roomService.getRecommendedRooms(+req.params.id);
       res.status(200).send(rooms);
     } catch (error) {
       res.status(500).send({
@@ -53,17 +50,6 @@ export const roomController = {
       });
     }
   },
-
-  // getNewestProducts: async (req: Request, res: Response) => {
-  //   try {
-  //     const products = await roomService.getNewestProducts();
-  //     res.status(200).send(products);
-  //   } catch (error) {
-  //     res.status(500).send({
-  //       error: 'Failed to fetch newest products',
-  //     });
-  //   }
-  // },
 
   getCheapestRooms: async (req: Request, res: Response) => {
     try {
@@ -78,7 +64,7 @@ export const roomController = {
 
   getBestRooms: async (req: Request, res: Response) => {
     try {
-      const rooms = await roomService.getBestRooms();      
+      const rooms = await roomService.getBestRooms();
       res.status(200).send(rooms);
     } catch (error) {
       res.status(500).send({
@@ -131,7 +117,8 @@ export const roomController = {
       await roomService.deleteRoom(+req.params.id);
       res.status(200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
       res.status(500).send({ error: 'Failed to delete room' });
     }
   },

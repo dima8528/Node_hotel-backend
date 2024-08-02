@@ -1,15 +1,15 @@
 import nodemailer from 'nodemailer';
-import 'dotenv/config'
+import 'dotenv/config';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { SendMailOptions } from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: 'smtp.gmail.com',
   port: 587,
   secure: false,
   auth: {
-    user: "diploma.admn.hotel@gmail.com",
-    pass: "uanm yqnw ehnh oizu",
+    user: 'diploma.admn.hotel@gmail.com',
+    pass: 'uanm yqnw ehnh oizu',
   },
 } as SMTPTransport.Options);
 
@@ -23,7 +23,7 @@ interface ActivationSendMailOptions extends CustomSendMailOptions {
 
 export function send({ email, subject, html }: CustomSendMailOptions) {
   return transporter.sendMail({
-    from: 'Auth API', // sender address
+    from: 'Auth API',
     to: email,
     subject,
     text: '',
@@ -31,15 +31,19 @@ export function send({ email, subject, html }: CustomSendMailOptions) {
   });
 }
 
-function sendActivationEmail({ email, activationToken }: ActivationSendMailOptions) {
-  const href = `${process.env.CLIENT_HOST}/React_hotel-frontend/#/activate/${activationToken}`
+function sendActivationEmail({
+  email,
+  activationToken,
+}: ActivationSendMailOptions) {
+  const href = `${process.env.CLIENT_HOST}/React_hotel-frontend/#/activate/${activationToken}`;
   const html = `
   <h1>Activate account</h1>
   <a href="${href}">${href}</a>`;
 
-  return send({email, html, subject: 'Activate'})
+  return send({ email, html, subject: 'Activate' });
 }
 
 export const emailService = {
-  sendActivationEmail, send
-}
+  sendActivationEmail,
+  send,
+};

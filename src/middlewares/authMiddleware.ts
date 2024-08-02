@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { jwtService } from '../services/jwt.service';
 import { ApiError } from '../exception/ApiError';
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
@@ -23,8 +27,6 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     console.error('Invalid access token');
     throw ApiError.Unauthorized();
   }
-
-  // console.log('User authorized:', userData);
 
   next();
 }

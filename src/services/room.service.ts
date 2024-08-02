@@ -27,7 +27,7 @@ export const roomService = {
       if (!type) {
         type = 'All';
       }
-      
+
       if (!sortBy) {
         sortBy = 'id';
       }
@@ -62,50 +62,52 @@ export const roomService = {
         select: {
           id: true,
         },
-      });      
-  
+      });
+
       if (!roomTypeResult && type !== 'All') {
         return { rooms: [], totalCount: 0, totalPages: 0 };
       }
-  
+
       const roomTypeId = roomTypeResult?.id;
-  
-      const totalCount = type === 'All' 
-        ? await prisma.room.count() 
-        : await prisma.room.count({
-            where: {
-              roomTypeId: roomTypeId,
-            },
-          });
-  
+
+      const totalCount =
+        type === 'All'
+          ? await prisma.room.count()
+          : await prisma.room.count({
+              where: {
+                roomTypeId: roomTypeId,
+              },
+            });
+
       const roomsOnPage = perPage ? perPage : totalCount;
-      
+
       const totalPages = Math.ceil(totalCount / roomsOnPage) || 1;
-      
-      const rooms = type === 'All'
-        ? await prisma.room.findMany({
-            orderBy: { [sortBy]: order },
-            skip: +roomsOnPage * (+page - 1),
-            take: +roomsOnPage,
-          }) 
-        : await prisma.room.findMany({
-            where: {
-              roomTypeId: roomTypeId,
-            },
-            orderBy: {
-              [sortBy]: order,
-            },
-            skip: +roomsOnPage * (+page - 1),
-            take: +roomsOnPage,
-          });
-  
+
+      const rooms =
+        type === 'All'
+          ? await prisma.room.findMany({
+              orderBy: { [sortBy]: order },
+              skip: +roomsOnPage * (+page - 1),
+              take: +roomsOnPage,
+            })
+          : await prisma.room.findMany({
+              where: {
+                roomTypeId: roomTypeId,
+              },
+              orderBy: {
+                [sortBy]: order,
+              },
+              skip: +roomsOnPage * (+page - 1),
+              take: +roomsOnPage,
+            });
+
       return { rooms, totalCount, totalPages };
     } catch (error) {
-      console.error("Error in getByRoomType service: ", error); // Логирование ошибки
+      console.error('Error in getByRoomType service: ', error);
       throw new Error('Database query failed');
     }
-  },  
-  
+  },
+
   getRecommendedRooms: async (id: number) => {
     const targetRoom = await prisma.room.findUnique({
       where: {
@@ -176,7 +178,7 @@ export const roomService = {
       'Standard' = 1,
       'Lux' = 2,
       'Premium' = 3,
-    };
+    }
 
     if (data.roomTypeId) {
       data.roomTypeId = types[data.roomTypeId];
